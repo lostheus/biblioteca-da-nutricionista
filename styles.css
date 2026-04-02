@@ -597,6 +597,20 @@ section, header {
 /* SEÇÃO 7: Oferta */
 .section-7-offer h2 {
   text-align: center;
+  font-size: 2.4rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--cor-primaria);
+  margin-bottom: 40px;
+  line-height: 1.2;
+  text-shadow: 0 4px 16px rgba(45, 106, 79, 0.15);
+}
+
+@media (max-width: 768px) {
+  .section-7-offer h2 {
+    font-size: 1.9rem;
+    margin-bottom: 32px;
+  }
 }
 
 .value-stack {
