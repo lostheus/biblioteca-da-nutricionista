@@ -645,5 +645,26 @@
             });
         });
     </script>
+
+    <!-- Repasse de UTMs UTMify -->
+    <script src="https://cdn.utmify.com.br/scripts/utms/latest.js" async defer></script>
+    
+    <!-- Repasse de UTMs Nativo (Fallback Cakto) -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var urlParams = window.location.search;
+            if (urlParams) {
+                var links = document.querySelectorAll('a[href*="pay.cakto.com.br"]');
+                links.forEach(function(link) {
+                    var url = new URL(link.href);
+                    var params = new URLSearchParams(urlParams);
+                    params.forEach(function(value, key) {
+                        url.searchParams.set(key, value);
+                    });
+                    link.href = url.href;
+                });
+            }
+        });
+    </script>
 </body>
 </html>
