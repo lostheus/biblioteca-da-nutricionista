@@ -115,7 +115,9 @@ section, header {
   overflow: hidden;
   box-shadow: 0 8px 32px rgba(0,0,0,0.1);
   background: #000;
+  width: 100%;
   max-width: 400px; /* Constraint para vídeo estilo vertical (Reels/Tik-Tok) */
+  aspect-ratio: 9 / 16;
 }
 
 .video-container {
