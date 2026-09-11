@@ -54,9 +54,40 @@
             <h1>O Maior Acervo de Nutrição: 4.000+ Arquivos</h1>
             <h2>Nutrição Clínica e Esportiva: pare de perder horas na internet e tenha seus materiais em um só lugar. Acesso vitalício.</h2>
             
-            <div class="main-video">
+            <div class="vturb-player-wrapper" id="vturbPlayer" onclick="playVturbVideo()">
                 <div class="video-container">
-                    <iframe width="458" height="815" src="https://www.youtube.com/embed/Gcfil4-KYBo?rel=0&modestbranding=1&playsinline=1" title="Biblioteca da Nutri" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    <div id="youtubePlayer"></div>
+                </div>
+                
+                <!-- VTurb Cover / Facade -->
+                <div class="vturb-cover" id="vturbCover">
+                    <div class="vturb-backdrop"></div>
+                    
+                    <!-- Top sound banner -->
+                    <div class="vturb-sound-banner">
+                        <span class="vturb-sound-icon">🔊</span>
+                        <div class="vturb-sound-text">
+                            <strong>SEU VÍDEO JÁ COMEÇOU</strong>
+                            <small>Clique para ativar o som</small>
+                        </div>
+                    </div>
+
+                    <!-- Center Pulsing Play Button -->
+                    <div class="vturb-play-box">
+                        <div class="vturb-play-button">
+                            <div class="vturb-pulse-ring"></div>
+                            <div class="vturb-pulse-ring-2"></div>
+                            <svg class="vturb-play-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M8 5v14l11-7z"/>
+                            </svg>
+                        </div>
+                        <span class="vturb-play-label">CLIQUE PARA ASSISTIR</span>
+                    </div>
+
+                    <!-- Bottom animated progress bar -->
+                    <div class="vturb-progress-bar">
+                        <div class="vturb-progress-fill"></div>
+                    </div>
                 </div>
             </div>
 
@@ -644,6 +675,65 @@
                 }
             });
         });
+
+        // VTurb Player Controller
+        let ytPlayer = null;
+        let ytReady = false;
+        let isPlaying = false;
+
+        (function() {
+            var tag = document.createElement('script');
+            tag.src = "https://www.youtube.com/iframe_api";
+            var firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        })();
+
+        window.onYouTubeIframeAPIReady = function() {
+            ytPlayer = new YT.Player('youtubePlayer', {
+                videoId: 'Gcfil4-KYBo',
+                playerVars: {
+                    autoplay: 0,
+                    controls: 1,
+                    modestbranding: 1,
+                    rel: 0,
+                    playsinline: 1,
+                    fs: 1
+                },
+                events: {
+                    onReady: function() {
+                        ytReady = true;
+                        if (isPlaying) {
+                            ytPlayer.playVideo();
+                            if (typeof ytPlayer.unMute === 'function') ytPlayer.unMute();
+                        }
+                    }
+                }
+            });
+        };
+
+        window.playVturbVideo = function() {
+            isPlaying = true;
+            const cover = document.getElementById('vturbCover');
+            if (cover) {
+                cover.classList.add('hidden');
+            }
+
+            if (ytPlayer && ytReady && typeof ytPlayer.playVideo === 'function') {
+                ytPlayer.playVideo();
+                if (typeof ytPlayer.unMute === 'function') {
+                    ytPlayer.unMute();
+                }
+            } else {
+                setTimeout(function() {
+                    if (!ytPlayer || !ytReady) {
+                        const container = document.getElementById('youtubePlayer');
+                        if (container && !container.querySelector('iframe')) {
+                            container.innerHTML = '<iframe width="100%" height="100%" src="https://www.youtube-nocookie.com/embed/Gcfil4-KYBo?autoplay=1&playsinline=1&controls=1&rel=0&modestbranding=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;"></iframe>';
+                        }
+                    }
+                }, 300);
+            }
+        };
     </script>
 
     <!-- Repasse de UTMs UTMify -->
