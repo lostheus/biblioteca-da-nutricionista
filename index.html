@@ -54,13 +54,19 @@
             <h1>O Maior Acervo de Nutrição: 4.000+ Arquivos</h1>
             <h2>Nutrição Clínica e Esportiva: pare de perder horas na internet e tenha seus materiais em um só lugar. Acesso vitalício.</h2>
             
-            <div class="vturb-player-wrapper" id="vturbPlayer" onclick="playVturbVideo()">
-                <div class="video-container">
-                    <div id="youtubePlayer"></div>
+            <div class="vturb-player-wrapper" id="vturbPlayer">
+                <div class="video-container" onclick="togglePlayPause(event)">
+                    <video id="mainVideo" playsinline preload="metadata">
+                        <source src="video.mp4" type="video/mp4">
+                        Seu navegador não suporta este vídeo.
+                    </video>
                 </div>
+
+                <!-- Indicador central de Play/Pause ao tocar -->
+                <div class="vturb-tap-indicator" id="vturbTapIndicator">▶</div>
                 
                 <!-- VTurb Cover / Facade -->
-                <div class="vturb-cover" id="vturbCover">
+                <div class="vturb-cover" id="vturbCover" onclick="playVturbVideo(event)">
                     <div class="vturb-backdrop"></div>
                     
                     <!-- Top sound banner -->
@@ -87,6 +93,16 @@
                     <!-- Bottom animated progress bar -->
                     <div class="vturb-progress-bar">
                         <div class="vturb-progress-fill"></div>
+                    </div>
+                </div>
+
+                <!-- Controles limpos ao reproduzir (estilo VTurb) -->
+                <div class="vturb-controls-overlay" id="vturbControls">
+                    <button class="vturb-ctrl-btn" id="vturbAudioBtn" onclick="toggleAudio(event)" title="Ativar/Desativar som">
+                        <span id="audioIcon">🔊</span>
+                    </button>
+                    <div class="vturb-live-progress" id="vturbLiveProgress" onclick="seekVideo(event)">
+                        <div class="vturb-live-progress-fill" id="vturbProgressFill"></div>
                     </div>
                 </div>
             </div>
@@ -676,64 +692,81 @@
             });
         });
 
-        // VTurb Player Controller
-        let ytPlayer = null;
-        let ytReady = false;
-        let isPlaying = false;
+        // VTurb Custom Video Player Controller
+        const mainVideo = document.getElementById('mainVideo');
+        const vturbCover = document.getElementById('vturbCover');
+        const vturbProgressFill = document.getElementById('vturbProgressFill');
+        const audioIcon = document.getElementById('audioIcon');
+        const vturbTapIndicator = document.getElementById('vturbTapIndicator');
+        const vturbPlayer = document.getElementById('vturbPlayer');
 
-        (function() {
-            var tag = document.createElement('script');
-            tag.src = "https://www.youtube.com/iframe_api";
-            var firstScriptTag = document.getElementsByTagName('script')[0];
-            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-        })();
+        function playVturbVideo(e) {
+            if (e) e.stopPropagation();
+            if (vturbCover) {
+                vturbCover.classList.add('hidden');
+            }
+            if (mainVideo) {
+                mainVideo.muted = false;
+                mainVideo.play().catch(function() {
+                    mainVideo.muted = true;
+                    if (audioIcon) audioIcon.textContent = '🔇';
+                    mainVideo.play();
+                });
+            }
+        }
 
-        window.onYouTubeIframeAPIReady = function() {
-            ytPlayer = new YT.Player('youtubePlayer', {
-                videoId: 'Gcfil4-KYBo',
-                playerVars: {
-                    autoplay: 0,
-                    controls: 1,
-                    modestbranding: 1,
-                    rel: 0,
-                    playsinline: 1,
-                    fs: 1
-                },
-                events: {
-                    onReady: function() {
-                        ytReady = true;
-                        if (isPlaying) {
-                            ytPlayer.playVideo();
-                            if (typeof ytPlayer.unMute === 'function') ytPlayer.unMute();
-                        }
-                    }
+        function togglePlayPause(e) {
+            if (!mainVideo) return;
+            if (mainVideo.paused) {
+                mainVideo.play();
+                showTapIndicator('▶');
+            } else {
+                mainVideo.pause();
+                showTapIndicator('⏸');
+            }
+        }
+
+        function showTapIndicator(icon) {
+            if (!vturbTapIndicator) return;
+            vturbTapIndicator.textContent = icon;
+            vturbTapIndicator.classList.add('show');
+            setTimeout(function() {
+                vturbTapIndicator.classList.remove('show');
+            }, 500);
+        }
+
+        function toggleAudio(e) {
+            if (e) e.stopPropagation();
+            if (!mainVideo) return;
+            mainVideo.muted = !mainVideo.muted;
+            if (audioIcon) {
+                audioIcon.textContent = mainVideo.muted ? '🔇' : '🔊';
+            }
+        }
+
+        function seekVideo(e) {
+            if (e) e.stopPropagation();
+            if (!mainVideo || !mainVideo.duration) return;
+            const rect = e.currentTarget.getBoundingClientRect();
+            const clickPos = (e.clientX - rect.left) / rect.width;
+            mainVideo.currentTime = clickPos * mainVideo.duration;
+        }
+
+        if (mainVideo) {
+            mainVideo.addEventListener('timeupdate', function() {
+                if (mainVideo.duration && vturbProgressFill) {
+                    const pct = (mainVideo.currentTime / mainVideo.duration) * 100;
+                    vturbProgressFill.style.width = pct + '%';
                 }
             });
-        };
 
-        window.playVturbVideo = function() {
-            isPlaying = true;
-            const cover = document.getElementById('vturbCover');
-            if (cover) {
-                cover.classList.add('hidden');
-            }
-
-            if (ytPlayer && ytReady && typeof ytPlayer.playVideo === 'function') {
-                ytPlayer.playVideo();
-                if (typeof ytPlayer.unMute === 'function') {
-                    ytPlayer.unMute();
+            mainVideo.addEventListener('ended', function() {
+                if (vturbCover) {
+                    vturbCover.classList.remove('hidden');
                 }
-            } else {
-                setTimeout(function() {
-                    if (!ytPlayer || !ytReady) {
-                        const container = document.getElementById('youtubePlayer');
-                        if (container && !container.querySelector('iframe')) {
-                            container.innerHTML = '<iframe width="100%" height="100%" src="https://www.youtube-nocookie.com/embed/Gcfil4-KYBo?autoplay=1&playsinline=1&controls=1&rel=0&modestbranding=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;"></iframe>';
-                        }
-                    }
-                }, 300);
-            }
-        };
+                mainVideo.currentTime = 0;
+            });
+        }
     </script>
 
     <!-- Repasse de UTMs UTMify -->

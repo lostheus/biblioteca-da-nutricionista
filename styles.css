@@ -139,6 +139,7 @@ section, header {
 }
 
 .vturb-player-wrapper .video-container iframe,
+.vturb-player-wrapper .video-container video,
 .vturb-player-wrapper .video-container #youtubePlayer {
   position: absolute;
   top: 0;
@@ -146,6 +147,7 @@ section, header {
   width: 100%;
   height: 100%;
   border: none;
+  object-fit: cover;
 }
 
 .vturb-cover {
@@ -346,6 +348,94 @@ section, header {
   0% { transform: scaleX(0.05); }
   50% { transform: scaleX(0.45); }
   100% { transform: scaleX(0.85); }
+}
+
+/* Overlay de controles ao reproduzir (Estilo VTurb limpo) */
+.vturb-controls-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.75) 100%);
+  z-index: 5;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.vturb-player-wrapper:hover .vturb-controls-overlay,
+.vturb-player-wrapper.active-touch .vturb-controls-overlay {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.vturb-ctrl-btn {
+  background: rgba(0, 0, 0, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #FFFFFF;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: transform 0.2s, background 0.2s;
+  flex-shrink: 0;
+}
+
+.vturb-ctrl-btn:hover {
+  transform: scale(1.1);
+  background: rgba(45, 106, 79, 0.9);
+}
+
+.vturb-live-progress {
+  flex: 1;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 4px;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+}
+
+.vturb-live-progress-fill {
+  width: 0%;
+  height: 100%;
+  background: #52B788;
+  border-radius: 4px;
+  transition: width 0.1s linear;
+}
+
+.vturb-tap-indicator {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.7);
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.65);
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  font-size: 1.6rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  z-index: 6;
+}
+
+.vturb-tap-indicator.show {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
 }
 
 .video-placeholder {
