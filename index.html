@@ -59,11 +59,12 @@
                 <script>
                   (function() {
                     var container = document.getElementById('losturb-8fe9b68b-8f9e-4f45-8083-0c476c9387fc');
+                    if (!container) return;
+                    container.innerHTML = ''; // Previne iframes duplicados se o script rodar 2x (ex: React strict mode)
                     var iframe = document.createElement('iframe');
                     iframe.src = 'https://los-turb.vercel.app/embed/8fe9b68b-8f9e-4f45-8083-0c476c9387fc' + window.location.search;
                     iframe.style.cssText = 'border:0;position:absolute;top:0;left:0;height:100%;width:100%;';
                     iframe.title = 'Player de vídeo';
-                    iframe.loading = 'eager';
                     iframe.allow = 'accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture';
                     iframe.allowFullscreen = true;
                     container.appendChild(iframe);
