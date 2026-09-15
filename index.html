@@ -54,58 +54,7 @@
             <h1>O Maior Acervo de Nutrição: 4.000+ Arquivos</h1>
             <h2>Nutrição Clínica e Esportiva: pare de perder horas na internet e tenha seus materiais em um só lugar. Acesso vitalício.</h2>
             
-            <div class="vturb-player-wrapper" id="vturbPlayer">
-                <div class="video-container" onclick="togglePlayPause(event)">
-                    <video id="mainVideo" playsinline preload="metadata">
-                        <source src="video.mp4" type="video/mp4">
-                        Seu navegador não suporta este vídeo.
-                    </video>
-                </div>
-
-                <!-- Indicador central de Play/Pause ao tocar -->
-                <div class="vturb-tap-indicator" id="vturbTapIndicator">▶</div>
-                
-                <!-- VTurb Cover / Facade -->
-                <div class="vturb-cover" id="vturbCover" onclick="playVturbVideo(event)">
-                    <div class="vturb-backdrop"></div>
-                    
-                    <!-- Top sound banner -->
-                    <div class="vturb-sound-banner">
-                        <span class="vturb-sound-icon">🔊</span>
-                        <div class="vturb-sound-text">
-                            <strong>SEU VÍDEO JÁ COMEÇOU</strong>
-                            <small>Clique para ativar o som</small>
-                        </div>
-                    </div>
-
-                    <!-- Center Pulsing Play Button -->
-                    <div class="vturb-play-box">
-                        <div class="vturb-play-button">
-                            <div class="vturb-pulse-ring"></div>
-                            <div class="vturb-pulse-ring-2"></div>
-                            <svg class="vturb-play-icon" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M8 5v14l11-7z"/>
-                            </svg>
-                        </div>
-                        <span class="vturb-play-label">CLIQUE PARA ASSISTIR</span>
-                    </div>
-
-                    <!-- Bottom animated progress bar -->
-                    <div class="vturb-progress-bar">
-                        <div class="vturb-progress-fill"></div>
-                    </div>
-                </div>
-
-                <!-- Controles limpos ao reproduzir (estilo VTurb) -->
-                <div class="vturb-controls-overlay" id="vturbControls">
-                    <button class="vturb-ctrl-btn" id="vturbAudioBtn" onclick="toggleAudio(event)" title="Ativar/Desativar som">
-                        <span id="audioIcon">🔊</span>
-                    </button>
-                    <div class="vturb-live-progress" id="vturbLiveProgress" onclick="seekVideo(event)">
-                        <div class="vturb-live-progress-fill" id="vturbProgressFill"></div>
-                    </div>
-                </div>
-            </div>
+            <div style="position:relative;padding-top:56.25%;"><iframe src="https://los-turb.vercel.app/embed/478e7a73-0038-49d1-aca9-1913334bb5e3" loading="lazy" style="border:0;position:absolute;top:0;height:100%;width:100%;" allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;" allowfullscreen="true"></iframe></div>
 
             <div class="header-cta-block" style="margin-top: 32px;">
                 <a href="#oferta" class="btn-cta pulse-btn">QUERO TER ACESSO AOS MATERIAIS AGORA</a>
@@ -692,81 +641,6 @@
             });
         });
 
-        // VTurb Custom Video Player Controller
-        const mainVideo = document.getElementById('mainVideo');
-        const vturbCover = document.getElementById('vturbCover');
-        const vturbProgressFill = document.getElementById('vturbProgressFill');
-        const audioIcon = document.getElementById('audioIcon');
-        const vturbTapIndicator = document.getElementById('vturbTapIndicator');
-        const vturbPlayer = document.getElementById('vturbPlayer');
-
-        function playVturbVideo(e) {
-            if (e) e.stopPropagation();
-            if (vturbCover) {
-                vturbCover.classList.add('hidden');
-            }
-            if (mainVideo) {
-                mainVideo.muted = false;
-                mainVideo.play().catch(function() {
-                    mainVideo.muted = true;
-                    if (audioIcon) audioIcon.textContent = '🔇';
-                    mainVideo.play();
-                });
-            }
-        }
-
-        function togglePlayPause(e) {
-            if (!mainVideo) return;
-            if (mainVideo.paused) {
-                mainVideo.play();
-                showTapIndicator('▶');
-            } else {
-                mainVideo.pause();
-                showTapIndicator('⏸');
-            }
-        }
-
-        function showTapIndicator(icon) {
-            if (!vturbTapIndicator) return;
-            vturbTapIndicator.textContent = icon;
-            vturbTapIndicator.classList.add('show');
-            setTimeout(function() {
-                vturbTapIndicator.classList.remove('show');
-            }, 500);
-        }
-
-        function toggleAudio(e) {
-            if (e) e.stopPropagation();
-            if (!mainVideo) return;
-            mainVideo.muted = !mainVideo.muted;
-            if (audioIcon) {
-                audioIcon.textContent = mainVideo.muted ? '🔇' : '🔊';
-            }
-        }
-
-        function seekVideo(e) {
-            if (e) e.stopPropagation();
-            if (!mainVideo || !mainVideo.duration) return;
-            const rect = e.currentTarget.getBoundingClientRect();
-            const clickPos = (e.clientX - rect.left) / rect.width;
-            mainVideo.currentTime = clickPos * mainVideo.duration;
-        }
-
-        if (mainVideo) {
-            mainVideo.addEventListener('timeupdate', function() {
-                if (mainVideo.duration && vturbProgressFill) {
-                    const pct = (mainVideo.currentTime / mainVideo.duration) * 100;
-                    vturbProgressFill.style.width = pct + '%';
-                }
-            });
-
-            mainVideo.addEventListener('ended', function() {
-                if (vturbCover) {
-                    vturbCover.classList.remove('hidden');
-                }
-                mainVideo.currentTime = 0;
-            });
-        }
     </script>
 
     <!-- Repasse de UTMs UTMify -->
