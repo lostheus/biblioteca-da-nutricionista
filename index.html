@@ -55,18 +55,38 @@
             <h2>Nutrição Clínica e Esportiva: pare de perder horas na internet e tenha seus materiais em um só lugar. Acesso vitalício.</h2>
             
             <div style="max-width: 400px; margin: 24px auto; border-radius: 16px; overflow: hidden; box-shadow: 0 12px 32px rgba(0,0,0,0.15);">
-                <div id="losturb-00bbf8a4-fe39-4f12-9e0f-ef9790c16df0" style="position:relative;width:100%;padding-top:177.77%;"></div>
+                <link rel="dns-prefetch" href="https://api.vturb.com.br">
+                <div id="losturb-cd21cd8a-7859-4832-8e47-eb2fdb302ed4" style="position:relative;width:100%;padding-top:177.77%;"></div>
                 <script>
                   (function() {
-                    var container = document.getElementById('losturb-00bbf8a4-fe39-4f12-9e0f-ef9790c16df0');
+                    var container = document.getElementById('losturb-cd21cd8a-7859-4832-8e47-eb2fdb302ed4');
                     if (!container) return;
-                    if (container.querySelector('iframe')) return; // Se já existe, não recria e não interrompe o vídeo!
+                    if (container.querySelector('iframe')) return;
+
+                    var search = window.location.search;
+                    var sep = search ? '&' : '?';
+                    var fullSrc = 'https://los-turb.vercel.app/embed/cd21cd8a-7859-4832-8e47-eb2fdb302ed4' + search + sep + 'pv=pandavideo.com';
+
                     var iframe = document.createElement('iframe');
-                    iframe.src = 'https://los-turb.vercel.app/embed/00bbf8a4-fe39-4f12-9e0f-ef9790c16df0' + window.location.search;
+                    iframe.src = fullSrc;
                     iframe.style.cssText = 'border:0;position:absolute;top:0;left:0;height:100%;width:100%;';
                     iframe.title = 'Player de vídeo';
                     iframe.allow = 'accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture';
                     iframe.allowFullscreen = true;
+
+                    // Blindagem: impede que scripts como UTMify alterem o src aos 2s, 3s e 5s, reiniciando o vídeo
+                    try {
+                      var currentSrc = fullSrc;
+                      Object.defineProperty(iframe, 'src', {
+                        get: function() { return currentSrc; },
+                        set: function(newVal) {
+                          if (newVal && newVal.indexOf('/embed/cd21cd8a-7859-4832-8e47-eb2fdb302ed4') !== -1) return;
+                          currentSrc = newVal;
+                          iframe.setAttribute('src', newVal);
+                        }
+                      });
+                    } catch(e) {}
+
                     container.appendChild(iframe);
                   })();
                 </script>
