@@ -891,7 +891,10 @@ section, header {
 }
 
 .btn-cta {
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
   background: var(--cor-destaque);
   color: #FFFFFF;
   font-size: 1.1rem;
@@ -903,11 +906,9 @@ section, header {
   letter-spacing: 0.5px;
   box-shadow: 0 4px 20px rgba(244,162,97,0.4);
   transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
-  min-height: 44px; /* Touch target */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+  min-height: 44px;
+  position: relative;
+  z-index: 99;
 }
 
 .btn-cta:hover {
