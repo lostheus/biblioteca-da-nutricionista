@@ -44,41 +44,15 @@
             <h1>O Maior Acervo de Nutrição: 4.000+ Arquivos</h1>
             
             <div style="max-width: 400px; margin: 24px auto; border-radius: 16px; overflow: hidden; box-shadow: 0 12px 32px rgba(0,0,0,0.15);">
-                <link rel="dns-prefetch" href="https://api.vturb.com.br">
-                <div id="losturb-47266434-c486-4942-8214-73498944d84b" style="position:relative;width:100%;padding-top:177.77%;background:#000 url('https://bljrrywuvddrtiscxyif.supabase.co/storage/v1/object/public/thumbnails/304fcb2a-2d94-42ea-a41c-f10eb540a925/thumbnails/dc63o8bu41_1789687250610.jpg') center/cover no-repeat;border-radius:12px;overflow:hidden;"></div>
-                <script>
-                  (function() {
-                    var container = document.getElementById('losturb-47266434-c486-4942-8214-73498944d84b');
-                    if (!container) return;
-                    if (container.querySelector('iframe')) return;
-
-                    var search = window.location.search;
-                    var sep = search ? '&' : '?';
-                    var fullSrc = 'https://los-turb.vercel.app/embed/47266434-c486-4942-8214-73498944d84b' + search + sep + 'pv=pandavideo.com';
-
-                    var iframe = document.createElement('iframe');
-                    iframe.src = fullSrc;
-                    iframe.style.cssText = 'border:0;position:absolute;top:0;left:0;height:100%;width:100%;';
-                    iframe.title = 'Player de vídeo';
-                    iframe.allow = 'accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture';
-                    iframe.allowFullscreen = true;
-
-                    // Blindagem: impede que scripts como UTMify alterem o src aos 2s, 3s e 5s, reiniciando o vídeo
-                    try {
-                      var currentSrc = fullSrc;
-                      Object.defineProperty(iframe, 'src', {
-                        get: function() { return currentSrc; },
-                        set: function(newVal) {
-                          if (newVal && newVal.indexOf('/embed/47266434-c486-4942-8214-73498944d84b') !== -1) return;
-                          currentSrc = newVal;
-                          iframe.setAttribute('src', newVal);
-                        }
-                      });
-                    } catch(e) {}
-
-                    container.appendChild(iframe);
-                  })();
-                </script>
+                <div style="position:relative;width:100%;padding-top:177.77%;background:#000;">
+                    <iframe src="https://www.youtube.com/embed/Gcfil4-KYBo?rel=0&modestbranding=1" 
+                            style="border:0;position:absolute;top:0;left:0;height:100%;width:100%;" 
+                            title="YouTube Shorts" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen>
+                    </iframe>
+                </div>
             </div>
             
             <h2>Nutrição Clínica e Esportiva: pare de perder horas na internet e tenha seus materiais em um só lugar. Acesso vitalício.</h2>
