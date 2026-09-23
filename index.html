@@ -45,53 +45,14 @@
             
             <div style="max-width: 400px; margin: 24px auto; border-radius: 16px; overflow: hidden; box-shadow: 0 12px 32px rgba(0,0,0,0.15);">
                 <div style="position:relative;width:100%;padding-top:177.77%;background:#000;">
-                    <!-- Overlay de Unmute -->
-                    <div id="unmute-overlay" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:10;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.4);cursor:pointer;flex-direction:column;">
-                        <div style="background:var(--cor-primaria);color:#fff;padding:12px 24px;border-radius:50px;font-weight:bold;font-size:1.1rem;box-shadow:0 4px 12px rgba(0,0,0,0.3);display:flex;align-items:center;gap:8px;animation: pulse-animation 2s infinite;">
-                            🔊 Clique para ativar o som
-                        </div>
-                    </div>
-                    
-                    <div id="ytplayer" style="position:absolute;top:0;left:0;height:100%;width:100%;"></div>
+                    <iframe src="https://www.youtube.com/embed/Gcfil4-KYBo?rel=0&modestbranding=1" 
+                            style="border:0;position:absolute;top:0;left:0;height:100%;width:100%;" 
+                            title="YouTube Shorts" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen>
+                    </iframe>
                 </div>
-
-                <script>
-                  // Carrega a API do YouTube
-                  var tag = document.createElement('script');
-                  tag.src = "https://www.youtube.com/iframe_api";
-                  var firstScriptTag = document.getElementsByTagName('script')[0];
-                  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-                  var player;
-                  function onYouTubeIframeAPIReady() {
-                    player = new YT.Player('ytplayer', {
-                      videoId: 'Gcfil4-KYBo',
-                      playerVars: {
-                        'playsinline': 1,
-                        'autoplay': 1,
-                        'mute': 1,
-                        'controls': 0,
-                        'rel': 0,
-                        'modestbranding': 1
-                      },
-                      events: {
-                        'onReady': function(event) {
-                          event.target.playVideo();
-                        }
-                      }
-                    });
-                  }
-
-                  // Ação do Overlay
-                  document.getElementById('unmute-overlay').addEventListener('click', function() {
-                    if (player && player.unMute) {
-                      player.unMute();
-                      player.setVolume(100);
-                      player.playVideo();
-                      this.style.display = 'none';
-                    }
-                  });
-                </script>
             </div>
             
             <h2>Nutrição Clínica e Esportiva: pare de perder horas na internet e tenha seus materiais em um só lugar. Acesso vitalício.</h2>
